@@ -35,17 +35,21 @@ const ProductsOverviewScreen = (props) => {
   )
 }
 
-ProductsOverviewScreen.navigationOptions = {
-  headerTitle: 'All Products',
-  headerRight: (
-    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item
-        onPress={() => {}}
-        title='Cart'
-        iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
-      />
-    </HeaderButtons>
-  ),
+ProductsOverviewScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: 'All Products',
+    headerRight: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          onPress={() => {
+            navData.navigation.navigate('Cart')
+          }}
+          title='Cart'
+          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+        />
+      </HeaderButtons>
+    ),
+  }
 }
 
 export default ProductsOverviewScreen
