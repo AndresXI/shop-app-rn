@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   Platform,
+  Alert,
 } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
@@ -21,6 +22,7 @@ const EditProductScreen = (props) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '')
+  const [titleIsValid, setTitleIsValid] = useState(false)
   const [price, setPrice] = useState('')
   const [description, setDescription] = useState(
     editedProduct ? editedProduct.description : ''
@@ -30,6 +32,12 @@ const EditProductScreen = (props) => {
   )
 
   const submitHandler = useCallback(() => {
+    if (!titleIsValid) {
+      Alert.alert('Wrong input!', 'Please check the errors in the form', [
+        { text: 'Okay' },
+      ])
+      return
+    }
     if (editedProduct) {
       dispatch(
         productActions.updateProduct(prodId, title, description, imageUrl)
@@ -46,16 +54,30 @@ const EditProductScreen = (props) => {
     props.navigation.setParams({ submit: submitHandler })
   }, [submitHandler])
 
+  const titleChangeHandler = (text) => {
+    if (text.trim().length === 0) {
+      setTitleIsValid(false)
+    } else {
+      setTitleIsValid(true)
+    }
+    setTitle(text)
+  }
+
   return (
     <ScrollView>
       <View style={styles.form}>
         <View style={styles.formControl}>
           <Text style={styles.label}>Title</Text>
           <TextInput
+            keyboardType={'default'}
+            autoCapitalize='sentences'
             value={title}
-            onChangeText={(text) => setTitle(text)}
+            onChangeText={titleChangeHandler}
             style={styles.input}
+            returnKeyType='next'
+            onEndEditing={() => console.log('onEndEditing')}
           />
+          {!titleIsValid && <Text>Please Enter a valid title</Text>}
         </View>
 
         <View style={styles.formControl}>
@@ -71,6 +93,7 @@ const EditProductScreen = (props) => {
           <View style={styles.formControl}>
             <Text style={styles.label}>Price</Text>
             <TextInput
+              keyboardType={'decimal-pad'}
               value={price}
               onChangeText={(price) => setPrice(price)}
               style={styles.input}
