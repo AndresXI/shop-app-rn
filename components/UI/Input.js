@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react'
+import React, { useReducer, useEffect, useCallback } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
 const INPUT_CHANGE = 'INPUT_CHANGE'
@@ -10,7 +10,7 @@ const inputReducer = (state, action) => {
       return {
         ...state,
         value: action.value,
-        isValid: isValid,
+        isValid: action.isValid,
       }
 
     case INPUT_BLUR:
@@ -31,13 +31,13 @@ const Input = (props) => {
     touched: false,
   })
 
-  const { onInputChange } = props
+  const { onInputChange, id } = props
 
   useEffect(() => {
     if (inputState.touched) {
       props.onInputChange(inputState.value, inputState.isValid)
     }
-  }, [inputState, onInputChange])
+  }, [inputState, onInputChange, id])
 
   const textChangeHandler = (text) => {
     const emailRegex =
@@ -71,12 +71,12 @@ const Input = (props) => {
       <Text style={styles.label}>{props.label}</Text>
       <TextInput
         {...props}
-        value={formState.inputValues.title}
+        value={inputState.value}
         onChangeText={textChangeHandler}
         style={styles.input}
         onBlur={lostFocusHandler}
       />
-      {!formState.inputValidities.title && <Text>{props.errorText}</Text>}
+      {!inputState.isValid && <Text>{props.errorText}</Text>}
     </View>
   )
 }
