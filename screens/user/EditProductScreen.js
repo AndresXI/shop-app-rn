@@ -28,14 +28,14 @@ const formReducer = (state, action) => {
       ...state.inputValidities,
       [action.input]: action.isValid,
     }
-    let formIsValid = true
+    let updatedFormIsValid = true
     for (const key in updatedValidities) {
-      formIsValid = formIsValid && updatedValidities[key]
+      updatedFormIsValid = updatedFormIsValid && updatedValidities[key]
     }
     return {
-      formIsValid,
-      inputValues: updatedValues,
+      formIsValid: updatedFormIsValid,
       inputValidities: updatedValidities,
+      inputValues: updatedValues,
     }
   }
   return state
@@ -65,6 +65,7 @@ const EditProductScreen = (props) => {
   })
 
   const submitHandler = useCallback(() => {
+    console.log('FORMSTATE: ----', formState)
     if (!formState.formIsValid) {
       Alert.alert('Wrong input!', 'Please check the errors in the form', [
         { text: 'Okay' },
