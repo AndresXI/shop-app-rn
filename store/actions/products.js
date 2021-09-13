@@ -12,7 +12,7 @@ export const fetchProducts = () => {
         'https://rn-shop-3881e-default-rtdb.firebaseio.com/products.json'
       )
 
-      if (!response.ok) throw new Error('Something went wrong!')
+      if (!response.ok) throw 'Something went wrong!'
 
       const resData = await response.json()
       const loadedProducts = []
@@ -38,12 +38,14 @@ export const fetchProducts = () => {
 
 export const deleteProduct = (productId) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://rn-shop-3881e-default-rtdb.firebaseio.com/products/${productId}.json`,
       {
         method: 'DELETE',
       }
     )
+
+    if (!response.ok) throw 'Something went wrong!'
 
     dispatch({
       type: DELETE_PRODUCT,
@@ -81,7 +83,7 @@ export const createProduct = (title, description, imageUrl, price) => {
 
 export const updateProduct = (id, title, description, imageUrl) => {
   return async (dispatch) => {
-    await fetch(
+    const response = await fetch(
       `https://rn-shop-3881e-default-rtdb.firebaseio.com/products/${id}.json`,
       {
         method: 'PATCH',
@@ -91,6 +93,8 @@ export const updateProduct = (id, title, description, imageUrl) => {
         body: JSON.stringify({ title, description, imageUrl }),
       }
     )
+
+    if (!response.ok) throw 'Something went wrong'
 
     dispatch({
       type: UPDATE_PRODUCT,
