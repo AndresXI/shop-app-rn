@@ -18,6 +18,13 @@ export const signup = (email, password) => {
         }),
       }
     )
+
+    if (!response.ok) {
+      throw 'Something went wrong!'
+    }
+
+    const resData = await response.json()
+    console.log('data', resData)
     dispatch({ type: SIGN_UP })
   }
 }
