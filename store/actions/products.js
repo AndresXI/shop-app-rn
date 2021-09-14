@@ -21,7 +21,7 @@ export const fetchProducts = () => {
         loadedProducts.push(
           new Product(
             key,
-            'u1',
+            resData[key].ownerId,
             resData[key].title,
             resData[key].imageUrl,
             resData[key].description,
@@ -64,6 +64,7 @@ export const createProduct = (title, description, imageUrl, price) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token
     const userId = getState().auth.userId
+
     const response = await fetch(
       `https://rn-shop-3881e-default-rtdb.firebaseio.com/products.json?auth=${token}`,
       {
@@ -71,7 +72,13 @@ export const createProduct = (title, description, imageUrl, price) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, description, imageUrl, price }),
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl,
+          price,
+          ownerId: userId,
+        }),
       }
     )
     const resData = await response.json()
