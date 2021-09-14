@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
 import ReduxThunk from 'redux-thunk'
+import { API_KEY } from '@env'
 
 import productsReducer from './store/reducers/products'
 import ordersReducer from './store/reducers/order'
