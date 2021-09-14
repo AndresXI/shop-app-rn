@@ -64,10 +64,12 @@ const AuthScreen = (props) => {
     setIsLoading(true)
     try {
       await dispatch(action)
+      console.log('navigating...')
+      props.navigation.navigate('Shop')
     } catch (error) {
       setError(error)
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   const inputChangeHandler = useCallback(

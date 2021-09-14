@@ -4,17 +4,18 @@ import { Provider } from 'react-redux'
 import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
 import ReduxThunk from 'redux-thunk'
-import { API_KEY } from '@env'
 
 import productsReducer from './store/reducers/products'
 import ordersReducer from './store/reducers/order'
 import cartReducer from './store/reducers/cart'
+import authReducer from './store/reducers/auth'
 import ShopNavigator from './navigation/ShopNavigator'
 
 const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
   orders: ordersReducer,
+  auth: authReducer,
 })
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
