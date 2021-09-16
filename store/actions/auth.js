@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { API_KEY } from '@env'
 
 export const AUTHENTICATE = 'AUTHENTICATE'
+export const LOGOUT = 'LOGOUT'
 
 const saveDataToStorage = (token, userId, expirationDate) => {
   AsyncStorage.setItem(
@@ -90,4 +91,8 @@ export const login = (email, password) => {
     )
     saveDataToStorage(resData.idToken, resData.localId, expirationDate)
   }
+}
+
+export const logout = () => {
+  return { type: LOGOUT }
 }
